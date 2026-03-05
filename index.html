@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive CSV Table</title>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+  <!-- PapaParse (CSV parser) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <h2 style="text-align:center;">Interactive CSV Data Table</h2>
+  <table id="csvTable" class="display" style="width:90%; margin:auto;"></table>
+
+  <script>
+    $(document).ready(function() {
+      Papa.parse("data.csv", {
+        download: true,
+        header: true,
+        complete: function(results) {
+          let data = results.data;
+          let columns = Object.keys(data[0]).map(key => ({ title: key, data: key }));
+          $('#csvTable').DataTable({
+            data: data,
+            columns: columns,
+            pageLength: 10
+          });
+        }
+      });
+    });
+  </script>
+  
+  
+ <!--  <script> 
+  // Load the CSV file (must be in the same folder as index.html) 
+  d3.csv("data.csv").then(function(data) { 
+  // Get table reference 
+  const table = d3.select("#data-table"); 
+  // Add header row 
+  const header = table.append("tr"); Object.keys(data[0]).forEach(function(key) { header.append("th").text(key); }); 
+  // Add data rows 
+  data.forEach(function(row) { const tr = table.append("tr"); Object.values(row).forEach(function(value) { tr.append("td").text(value); }); }); }); 
+  </script>
+  --> 
+  
+</body>
+</html>
